@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/login.css" th:href="@{/css/login.css}"/>
+    <title>Inicio Alke-Wallet</title>
+</head>
+
+<body>
+<main>
+    <section
+            class="container"
+            id="container"
+            transition-style="in:circle:hesitate">
+        <div class="form-container sign-up" id="signup">
+            <form id="formCreateAccount" th:action="@{/registerUser}" th:object="${userDTO}" method="post">
+                <div class="parraf-create">
+                    <h1>Bienvenido de nuevo!</h1>
+                    <h4>
+                        Regístrate y comienza a disfrutar de una forma más fácil, segura
+                        y completa de administrar tu dinero.
+                    </h4>
+                    <hr />
+                </div>
+                <h2>Crea una cuenta</h2>
+                <span>Ingrese sus datos aquí</span>
+                <input type="text" id="name" name="name" th:field="*{name}" placeholder="Nombre Completo" required />
+                <input type="text" id="username" name="username" th:field="*{username}" placeholder="Nombre Usuario" required />
+                <input type="email" id="email" name="email" th:field="*{email}" placeholder="Email" required />
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        th:field="*{password}"
+                        placeholder="Contraseña"
+                        pattern="[0-9]{6}"
+                        inputmode="numeric"
+                        title="Debe solo ingresar una Contraseña de 6 Dígitos."
+                        required />
+                <input
+                        type="password"
+                        id="passwordConfirm"
+                        name="passwordConfirm"
+                        th:field="*{passwordConfirm}"
+                        placeholder="Confirme Contraseña"
+                        pattern="[0-9]{6}"
+                        inputmode="numeric"
+                        title="Debe solo ingresar una Contraseña de 6 Dígitos."
+                        required />
+                <button type="submit" id="signUpButton" class="btn">
+                    Crear Cuenta
+                </button>
+                <div id="alert" role="alert"></div>
+                <div id="buttonCreateDiv">
+              <span
+              >Si ya tienes cuenta
+                <a id="buttonCreate">Inicia Sesión!</a></span
+              >
+                </div>
+            </form>
+        </div>
+        <div class="form-container sign-in" id="signin">
+            <form id="formLogin" th:action="@{/login}" th:object="${loginDTO}" method="post">
+                <div class="parraf-login">
+                    <h1>¡Bienvenido a alke-Wallet!</h1>
+                    <h4>Tu puerta al mundo financiero digital.</h4>
+                    <hr />
+                </div>
+                <h2>Iniciar Sesión</h2>
+                <span>Ingrese sus datos aquí</span>
+                <input type="text" id="usernameLogin" name="usernameLogin" th:field="*{usernameLogin}" placeholder="Username" required />
+                <input
+                        type="password"
+                        id="passLogin"
+                        name="passwordLogin"
+                        th:field="*{passwordLogin}"
+                        placeholder="Contraseña"
+                        pattern="[0-9]{6}"
+                        inputmode="numeric"
+                        title="Debe solo ingresar una Contraseña de 6 Dígitos."
+                        required />
+                <a href="#">Olvidó su Clave?</a>
+                <button type="submit" id="signInButton">Ingresar</button>
+                <div id="buttonRegisterDiv">
+                    <span>Si eres nuevo. Regístrate<a id="buttonRegister">aquí!</a></span >
+                </div>
+                <div th:if="${loginError}" class="error">Nombre de usuario o contraseña incorrectos.</div>
+                <div th:if="${message}">
+                    <div class="alert alert-danger mt-3" th:text="${message}">Mensaje de advertencia</div>
+                </div>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bienvenido de nuevo!</h1>
+                    <p>Ingrese sus datos para poder utilizar nuestra Alke-Wallet</p>
+                    <button class="hidden" id="loginButtonToggle">
+                        Inicio Sesión
+                    </button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>
+                        ¡Bienvenido a Alke-Wallet! Tu puerta al mundo financiero digital.
+                    </h1>
+                    <p>
+                        Regístrate y comienza a disfrutar de una forma más fácil, segura
+                        y completa de administrar tu dinero. Accede a transferencias,
+                        Depósitos y próximamente a mucho más. ¡Abre las puertas a un
+                        mundo de posibilidades financieras con Alke-Wallet!
+                    </p>
+                    <button class="hidden" id="registerButtonToggle">
+                        Regístrate Aquí
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+</body>
+</html>

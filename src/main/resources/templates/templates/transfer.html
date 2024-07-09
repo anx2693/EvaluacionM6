@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transferencia de Dinero</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="../static/css/transfer.css" th:href="@{/css/transfer.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/menu.css" th:href="@{/css/menu.css}"/>
+</head>
+<body>
+<header>
+    <nav class="navigation">
+        <ul>
+            <li class="list">
+                <a th:href="@{/home}">
+                    <span class="icon"><box-icon name='home' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Home</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list ">
+                <a th:href="@{/deposit/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='money-withdraw' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Depositar</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/withdraw/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='money' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Retiro</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list active">
+                <a th:href="@{/transfer/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='transfer' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Transferir</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/transactionList}">
+                    <span class="icon"><box-icon name='history' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Movimientos</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/logout}">
+                    <span class="icon"><box-icon name='log-out' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Salir</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <div class="indicator"></div>
+        </ul>
+    </nav>
+</header>
+<main class="container">
+    <section id="transferContact">
+        <h3>Contacto a Transferir </h3>
+        <form th:action="@{/selectContact/{userId}(userId=${userId})}" th:object="${contact}" method="post">
+            <div id="contactName" class="list-group">
+                <label th:each="contact : ${contacts}" class="list-group-item">
+                    <input type="radio" th:id="${contact.id}" th:name="selectedContactId" th:value="${contact.id}" class="form-check-input" required>
+                    <span th:text="${contact.name}" class="ml-2">Nombre-Usuario</span>
+                </label>
+            </div>
+            <button type="submit" id="buttonSelectContact" class="btn btn-primary mt-3">Seleccionar</button>
+            <button type="submit" id="buttonEliminatedContact" name="deleteContact" value="delete" class="btn btn-danger mt-3">Eliminar</button>
+        </form>
+        <button id="buttonAddContact" class="btn btn-success mt-3" onclick="document.getElementById('addContactModal').style.display='block'">Agregar</button>
+        <div th:if="${message}">
+            <div class="alert alert-success mt-3" th:text="${message}"></div>
+        </div>
+        <div th:if="${messageContact}">
+            <div class="alert alert-danger mt-3" th:text="${messageContact}"></div>
+        </div>
+    </section>
+    <section id="addContactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Nuevo Contacto</h2>
+            </div>
+            <div class="modal-body">
+                <form id="formAddContactModal" th:action="@{/registerContact}" th:object="${contactDTO}" method="post">
+                    <input type="hidden" th:value="${userId}" name="userId"/>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" th:field="*{name}" class="form-control-sm" placeholder="Ingrese Nombre" autocomplete="name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" th:field="*{email}" class="form-control-sm" placeholder="Ingrese Email">
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="addNewContact" class="btn btn-success">Agregar</button>
+                        <button type="reset" id="butttonResetContact" class="btn btn-danger">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="transfer">
+        <h3>Contacto a Transferir </h3>
+        <ul id="contactList" class="list-group">
+            <li class="list-group-item" th:if="${selectedContact != null}">
+                <div class="contact-info">
+                    <ul>
+                        <li th:text="${selectedContact.name}">nombre</li>
+                        <li th:text="${selectedContact.email}">email</li>
+                        <li th:if="${selectedContact.isUser}" th:text="'Alke Wallet'" style="color:yellow">Disponible</li>
+                        <li th:unless="${selectedContact.isUser}">&nbsp;</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section id="sendMoney" th:if="${selectedContact != null}">
+        <form id="formWithdraw" th:action="@{/transfer}" method="post">
+            <input type="hidden" th:value="${userId}" name="userId"/>
+            <input type="hidden" name="contactId" th:if="${selectedContact != null}" th:value="${selectedContact.id}" />
+            <div class="form-group">
+                <label for="transferAmount">Monto a Transferir: </label>
+                <input type="number" id="transferAmount" name="transferAmount" placeholder="Monto a transferir" autocomplete="off" class="form-control" required/>
+                <label for="description">Descripción: </label>
+                <textarea id="description" name="description" rows="1" cols="20" maxlength="50" placeholder="Agregue una descripción a la transferencia" class="form-control" autocomplete="off"></textarea>
+            </div>
+            <button type="submit" id="buttonTransfer" class="btn btn-primary">Realizar Transferencia</button>
+        </form>
+        <div th:if="${errorMessage}">
+            <div class="alert alert-danger mt-3" th:text="${errorMessage}">Mensaje de advertencia para el usuario</div>
+        </div>
+        <div th:if="${contactMessage}">
+            <div class="alert alert-warning mt-3" th:text="${contactMessage}">Texto informativo</div>
+        </div>
+    </section>
+</main>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    var modal = document.getElementById('addContactModal');
+    var span = document.getElementsByClassName('close')[0];
+
+    // Cuando el usuario haga clic en el elemento (x), cierra el modal
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    // Cuando el usuario haga clic en cualquier lugar fuera del modal, ciérralo
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="../static/js/menu.js" th:src="@{/js/menu.js}"></script>
+</body>
+</html>

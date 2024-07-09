@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body{
+  background-position: center;
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header{
+  padding-bottom: 100px;
+}
+
+.container{
+  display: flex;
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  border: 2px solid black;
+  border-radius: 50px;
+  box-shadow: 20px 15px 40px black;
+  position: relative;
+  overflow: hidden;
+  width: auto;
+  height: auto;
+  color: white;
+  padding: 30px;
+  margin: auto;
+  margin-top: 14px;
+
+}
+header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header a i{
+  font-size: 25px;
+  color: white;
+}
+
+#header{
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+}
+#header p{
+  display: contents;
+}
+.row{
+    justify-content: center;
+}
+.d-flex {
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
+  white-space: nowrap;
+}
+.col-md-6 p {
+  margin-right: 300px;
+}
+.col-md-3 h3 {
+  margin-left: -190px;
+}
+#hideButton i {
+  font-size: 25px;
+  transition: color 0.5s ease;
+  color: white;
+  cursor: pointer;
+}
+#hideButton:hover i {
+  color: #919432;
+}
+.container #button{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 10px;
+}
+.container .btn{
+  background-color: black;
+  text-align: center;
+  color: #e8f008;
+}
+.btn:hover{
+  background-color: #919432;
+  color: white;
+  transform: scale(1.1);
+}
+
+.navigation {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  z-index: 100; 
+  background-color: #333; 
+  padding: 10px 0;
+}
+
+@media screen and (max-width: 600px) {
+  body{
+    background-size: 700px;
+  }
+  .container{
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    justify-content: center;
+  }
+  .form-group{
+    flex-direction: column;
+  }
+  .container #button{
+    flex-direction: column;
+  }
+}

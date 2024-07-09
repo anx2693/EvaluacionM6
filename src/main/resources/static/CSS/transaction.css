@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body{
+  background-position: center;
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+header{
+  padding-bottom: 100px;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  border: 2px solid black;
+  border-radius: 50px;
+  box-shadow: 20px 15px 40px black;
+  position: relative;
+  overflow: hidden;
+  width: 80%;
+  height: auto;
+  color: white;
+  padding: 30px;
+  margin: 0 auto;
+  margin-top: 14px;
+
+}
+
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  header a i{
+    font-size: 20px;
+  }
+
+main{
+    padding-top: 50px;
+}
+
+.title-container {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: black
+}
+
+.table-container {
+  width: auto; 
+  max-width: 100%;
+  margin: auto; 
+  background-color: transparent; 
+  border-radius: 5px; 
+  border: none; 
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 400px; 
+}
+.table-container table thead tr {
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.table-container table tbody tr td {
+  color: white; 
+  text-align: center; 
+  text-justify: justify;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+}
+.navigation-container {
+  text-align: center;
+  margin-top: 1rem; 
+}
+
+@media screen and (max-width: 600px) {
+  body{
+    background-size: auto;
+  }
+  .container{
+    display: flex;
+    width: 100%;
+    padding: 15px;
+
+    justify-content: center;
+  }
+}

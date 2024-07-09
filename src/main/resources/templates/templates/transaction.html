@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Transacciones</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="../static/css/menu.css" th:href="@{/css/menu.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/transaction.css" th:href="@{/css/transaction.css}"/>
+</head>
+<body>
+<header>
+    <nav class="navigation">
+        <ul>
+            <li class="list">
+                <a th:href="@{/home}">
+                    <span class="icon"><box-icon name='home' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Home</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/deposit/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='money-withdraw' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Depositar</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/withdraw/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='money' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Retiro</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/transfer/{id}(id=${user.id})}">
+                    <span class="icon"><box-icon name='transfer' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Transferir</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list active">
+                <a th:href="@{/transactionList}">
+                    <span class="icon"><box-icon name='history' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Movimientos</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a th:href="@{/logout}">
+                    <span class="icon"><box-icon name='log-out' color='#f5f2f2'></box-icon></span>
+                    <span class="text">Salir</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <div class="indicator"></div>
+        </ul>
+    </nav>
+</header>
+<div class="container my-2" align="center">
+    <div class="title-container">
+      <h3>Historial de Transacciones</h3>
+    </div>
+    <form method="get" action="#" th:action="@{/transactionList}" class="form-inline mb-3 justify-content-center">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="transactionType" class="sr-only">Tipo de Transacción</label>
+            <select id="transactionType" name="transactionType" class="form-control">
+                <option value="">Todos</option>
+                <option value="DEPOSITO">Depósitos</option>
+                <option value="RETIRO">Retiros</option>
+                <option value="TRANSFERENCIA">Transferencias</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+    </form>
+    <div class="table-container">
+        <table style="width:80%" border="1" class = "table table-striped table-responsive-md">
+        <thead>
+            <tr>
+                <th>Tipo Transacción</th>
+                <th>Monto</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+                <th>Remitente</th>
+                <th>Destinatario</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+            <tbody>
+            <tr th:each="transaction:${filteredTransactionList}">
+                <td th:text="${transaction.type}"></td>
+                <td th:text="'$'+${#numbers.formatDecimal(transaction.amount, 0, 'POINT', 0, 'NONE')}"></td>
+                <td th:text="${transaction.message}"></td>
+                <td th:text="${transaction.date}"></td>
+                <td th:text="${transaction.userSender}"></td>
+                <td>
+                    <span th:if="${transaction.contactReceiver != null}" th:text="${transaction.contactReceiver.name}"></span>
+                    <span th:if="${transaction.userReceiver != null}" th:text="${transaction.userReceiver.name}"></span>
+                </td>
+                <td th:text="${transaction.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="../static/js/menu.js" th:src="@{/js/menu.js}"></script>
+</body>
+</html>
